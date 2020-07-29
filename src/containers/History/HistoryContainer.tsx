@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
-import { LocationState } from '../../helper/constants'
+import { useHistory } from 'react-router-dom'
+import { RootState } from '../../helper/constants'
+import { useSelector } from 'react-redux'
 
 const HistoryContainer: FC = () => {
+    const getHistory = useSelector((state: RootState) => state.history)
+
     const history = useHistory()
-    const location = useLocation<LocationState>()
-    const gamesPlayed = location.state.currentPlays
     
     const goToHome = () => {
         history.push({
@@ -23,7 +24,7 @@ const HistoryContainer: FC = () => {
             <hr/>
             <div>
                 {
-                    gamesPlayed && gamesPlayed.map(({gametype, cards, winners}, i) => (
+                    getHistory.map(({gametype, cards, winners}, i) => (
                         <div key={i}>
                             <div className="d-flex justify-content-between">
                                 {

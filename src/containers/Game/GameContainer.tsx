@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import { GET_STARSHIPS } from '../../graphql/queries'
+import { useDispatch } from 'react-redux'
 import { CardType } from '../../helper/constants'
 import { getNrandomCards, compareHeight, compareHyperDrive } from '../../helper/helper'
 
@@ -9,11 +10,9 @@ import Card from '../../components/Card/Card'
 import Banner from '../../shared/Banner/Banner';
 import Button from '../../shared/Button/Button'
 
-interface Props {
-    setHistory: (param:object) => void;
-}
+const GameContainer: React.FC<{}> = () => {
+    const dispatch = useDispatch()
 
-const GameContainer: React.FC<Props> = ({setHistory}) => {
     const { data } = useQuery(GET_STARSHIPS)
     const [selectedCards, updateSelectedCards] = useState<CardType[]>([])
     const [selectedGameType, setSelectedGameType] = useState<string>('')
@@ -36,6 +35,7 @@ const GameContainer: React.FC<Props> = ({setHistory}) => {
     }
 
     useEffect(() => {
+        
         if (selectedGameType === '') {
             return;
         }
@@ -62,8 +62,12 @@ const GameContainer: React.FC<Props> = ({setHistory}) => {
             gametype: selectedGameType
         }
 
-        setHistory(archive)
-    }, [selectedCards, selectedGameType, setHistory])
+        dispatch({
+            type: 'SET_HISTORY',
+            pay: archive
+        })
+        
+    }, [dispatch, selectedCards, selectedGameType])
 
     return (
         <section>

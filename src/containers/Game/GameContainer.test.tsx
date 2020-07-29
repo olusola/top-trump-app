@@ -8,10 +8,12 @@ import { GET_STARSHIPS } from '../../graphql/queries'
 import { ThemeProvider } from 'styled-components'
 import { lightTheme } from '../../styles/style'
 import  GameContainer from './GameContainer'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from '../../reduxStore/store'
 
 describe('GameContainer', () => {
     let wrapper: any
-    let setHistoryTypeSpy: any
     const mocks = [
         {
         request: {
@@ -33,20 +35,20 @@ describe('GameContainer', () => {
             },
         },
     ]
+    const store = createStore(rootReducer)
 
     beforeEach (async () => {
-        setHistoryTypeSpy = jest.fn()
-
         const renderProps = {
-            setHistory: setHistoryTypeSpy
         }
 
         wrapper  = mount(
-            <ThemeProvider theme={lightTheme}>
-                <MockedProvider mocks={mocks} addTypename={false}>
-                    <GameContainer {...renderProps}/> 
-                </MockedProvider>
-            </ThemeProvider> 
+            <Provider store={store}>
+                <ThemeProvider theme={lightTheme}>
+                    <MockedProvider mocks={mocks} addTypename={false}>
+                        <GameContainer {...renderProps}/> 
+                    </MockedProvider>
+                </ThemeProvider> 
+            </Provider>
         )
         await act(()=> new Promise(resolve => setTimeout(resolve, 0)))
     })

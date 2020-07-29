@@ -20,3 +20,7 @@ export type GameHistory = {
 export type LocationState = {
     currentPlays?: GameHistory[];
 }
+
+export type RootState = {
+    history: GameHistory[];
+}
