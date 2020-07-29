@@ -1,3 +1,6 @@
+## Live App
+https://top-trump-app.vercel.app/
+
 ### Note
  - Height is not available for player comparison so i used 'crew' field instead
  
